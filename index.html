@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Pong Retro TV 1972 | 4U.IA.BR</title>
+  <meta name="description" content="Jogue o clássico Pong de 1972 dentro de uma autêntica TV de tubo CRT retro com áudio 8-bit sintetizado, shaders scanlines e seletores de canal interativos."/>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png"/>
+  <link rel="apple-touch-icon" href="/favicon-192x192.png"/>
+
+  <!-- Google Fonts Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet"/>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Retro Header -->
+  <header class="retro-header">
+    <div class="brand-wrapper">
+      <img src="/logo.png" alt="4U.IA.BR" class="brand-logo" onerror="this.style.display='none'"/>
+      <h1 class="brand-title"><span class="accent">PONG</span> RETRO TV</h1>
+      <span class="brand-badge">ARCADE 1972</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-header" id="openTutorialBtn" title="Instruções e controles">
+        <span>📖</span> Como Jogar
+      </button>
+    </div>
+  </header>
+
+  <!-- Arcade Stage -->
+  <main class="arcade-stage">
+    
+    <!-- TV Stage Wrapper with Ambient Lighting -->
+    <div class="tv-stage-wrapper" id="stageWrapper">
+      <div class="tv-cabinet">
+        
+        <!-- CRT Screen Tube (Positioned exactly in the TV aperture) -->
+        <div class="tv-screen-container">
+          <canvas id="pongCanvas"></canvas>
+          
+          <!-- Optical Overlays (Scanlines, Vignette, Glare) -->
+          <div class="crt-scanlines" id="crtScanlines"></div>
+          <div class="crt-vignette"></div>
+          <div class="crt-glare"></div>
+          <div class="crt-beam-overlay" id="crtBeamOverlay"></div>
+
+          <!-- HUD Status Screen Overlay (Pause / Game Over) -->
+          <div class="screen-hud-overlay hidden" id="screenHudOverlay">
+            <h2 class="hud-title" id="hudTitle">JOGO PAUSADO</h2>
+            <p class="hud-subtitle" id="hudSubtitle">Pressione Espaço para continuar</p>
+            <div class="hud-btn-group">
+              <button class="btn-hud" id="hudRestartBtn">JOGAR NOVAMENTE</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TV Bezel Frame Image (Natural 3D wooden/metallic casing & dials) -->
+        <img src="assets/images/retro_tv.png" class="tv-bezel-frame" alt="Retro CRT TV Frame" />
+
+        <!-- Interactive Hotspots on the TV's Physical Controls -->
+        <div class="tv-hotspots">
+          <!-- Push Buttons Column -->
+          <button class="hotspot-btn btn-hotspot-power" id="hotspotPower" title="Power TV (Ligar / Desligar)">
+            <span class="hotspot-tooltip">Ligar / Desligar TV</span>
+          </button>
+          <button class="hotspot-btn btn-hotspot-mode" id="hotspotMode" title="Alternar Modo (CPU / 2P)">
+            <span class="hotspot-tooltip">Modo CPU / 2P</span>
+          </button>
+          <button class="hotspot-btn btn-hotspot-sound" id="hotspotSound" title="Som Mudo / Ligado">
+            <span class="hotspot-tooltip">Alternar Som</span>
+          </button>
+          <button class="hotspot-btn btn-hotspot-crt" id="hotspotCrt" title="Filtro CRT Scanlines">
+            <span class="hotspot-tooltip">Efeito CRT On/Off</span>
+          </button>
+          <button class="hotspot-btn btn-hotspot-pause" id="hotspotPause" title="Pausar / Continuar">
+            <span class="hotspot-tooltip">Pausar / Jogar</span>
+          </button>
+
+          <!-- Upper Rotary Knob (Channel / Color Theme) -->
+          <button class="hotspot-btn btn-hotspot-rotary-channel" id="rotaryChannel" title="Girar Seletor de Canal (Cores CRT)">
+            <div class="rotary-marker"></div>
+            <span class="hotspot-tooltip">Canal / Cor CRT</span>
+          </button>
+
+          <!-- Lower Rotary Knob (Tuning / Difficulty) -->
+          <button class="hotspot-btn btn-hotspot-rotary-tuning" id="rotaryTuning" title="Girar Sintonizador (Dificuldade)">
+            <div class="rotary-marker"></div>
+            <span class="hotspot-tooltip">Sintonia / Dificuldade</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Touch Controller (visible on smartphones & tablets) -->
+    <div class="mobile-touch-bar">
+      <!-- Player 1 Touch (Left) -->
+      <div class="touch-paddle-controller">
+        <span class="touch-player-label">Jogador 1 (Esquerda)</span>
+        <div class="touch-btn-row">
+          <button class="btn-touch-nav" id="p1UpBtn" aria-label="Mover P1 Cima">▲ CIMA</button>
+          <button class="btn-touch-nav" id="p1DownBtn" aria-label="Mover P1 Baixo">▼ BAIXO</button>
+        </div>
+      </div>
+
+      <!-- Player 2 Touch (Right, shown in 2P mode) -->
+      <div class="touch-paddle-controller" id="p2TouchController" style="display: none;">
+        <span class="touch-player-label">Jogador 2 (Direita)</span>
+        <div class="touch-btn-row">
+          <button class="btn-touch-nav" id="p2UpBtn" aria-label="Mover P2 Cima">▲ CIMA</button>
+          <button class="btn-touch-nav" id="p2DownBtn" aria-label="Mover P2 Baixo">▼ BAIXO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retro Control Dashboard (Under TV) -->
+    <div class="arcade-dashboard">
+      
+      <!-- Row 1: Game Mode & Quick Actions -->
+      <div class="dashboard-row">
+        <div>
+          <div class="group-title">🎮 Modo de Jogo</div>
+          <div class="btn-pill-group">
+            <button class="btn-pill active" id="modeCpuBtn">
+              <span>🤖</span> vs Computador
+            </button>
+            <button class="btn-pill" id="modePvpBtn">
+              <span>👥</span> 2 Jogadores
+            </button>
+            <button class="btn-pill" id="modeDemoBtn">
+              <span>📺</span> Modo Demo
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="group-title">⚡ Ações Rápidas</div>
+          <div class="action-buttons-group">
+            <button class="btn-action" id="btnTogglePause">
+              <span>⏸️</span> Pausar
+            </button>
+            <button class="btn-action btn-accent" id="btnResetGame">
+              <span>🔄</span> Reiniciar
+            </button>
+            <button class="btn-action" id="btnTogglePower">
+              <span>📺</span> Desligar TV
+            </button>
+            <button class="btn-action btn-accent" id="btnToggleSound">
+              <span>🔊</span> Som: Ligado
+            </button>
+            <button class="btn-action btn-accent" id="btnToggleCrt">
+              <span>🎛️</span> CRT: Ligado
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: CRT Channel Themes & Difficulty -->
+      <div class="dashboard-row">
+        <div>
+          <div class="group-title">📺 Canal de Imagem (Tema CRT)</div>
+          <div class="btn-pill-group">
+            <button class="btn-pill active" data-theme="green">
+              <span>🟢</span> Verde CRT
+            </button>
+            <button class="btn-pill" data-theme="amber">
+              <span>🟠</span> Âmbar
+            </button>
+            <button class="btn-pill" data-theme="classic">
+              <span>⚪</span> 1972 Clássico
+            </button>
+            <button class="btn-pill" data-theme="neon">
+              <span>🟣</span> Neon 80s
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="group-title">🎯 Nível de Dificuldade</div>
+          <div class="btn-pill-group">
+            <button class="btn-pill" data-diff="easy">Iniciante</button>
+            <button class="btn-pill active" data-diff="normal">Normal</button>
+            <button class="btn-pill" data-diff="pro">Pro Arcade</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Keyboard Shortcuts Bar -->
+    <div class="keyboard-hints">
+      <span><span class="kbd-badge">W</span> / <span class="kbd-badge">S</span> Jogador 1</span>
+      <span><span class="kbd-badge">↑</span> / <span class="kbd-badge">↓</span> Jogador 2 (ou Jogador 1 no modo CPU)</span>
+      <span><span class="kbd-badge">Espaço</span> / <span class="kbd-badge">P</span> Pausar</span>
+      <span><span class="kbd-badge">R</span> Reiniciar</span>
+      <span><span class="kbd-badge">C</span> Trocar Canal</span>
+      <span><span class="kbd-badge">M</span> Mudo</span>
+      <span><span class="kbd-badge">O</span> Power TV</span>
+    </div>
+
+  </main>
+
+  <!-- Tutorial Modal -->
+  <div class="modal-backdrop" id="tutorialModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title"><span>📺</span> Manual do Pong Retro TV 1972</h3>
+        <button class="modal-close" id="closeTutorialBtn" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <div>
+          <div class="modal-section-title">🕹️ Sobre o Pong (1972)</div>
+          <p>
+            Criado por <strong>Allan Alcorn</strong> e lançado pela <strong>Atari</strong> em novembro de 1972 sob a liderança de <strong>Nolan Bushnell</strong>, Pong foi o primeiro videogame arcade de sucesso comercial no mundo. Esta versão recria fielmente a física analógica de ricochete angular, áudio de ondas quadradas em 8-bit e o charme inconfundível de uma televisão de tubo CRT da década de 1970.
+          </p>
+        </div>
+
+        <div>
+          <div class="modal-section-title">⌨️ Controles do Teclado</div>
+          <div class="modal-grid-controls">
+            <div class="control-card">
+              <h4>Jogador 1 (Esquerda)</h4>
+              <p><span class="kbd-badge">W</span> para subir<br/><span class="kbd-badge">S</span> para descer</p>
+            </div>
+            <div class="control-card">
+              <h4>Jogador 2 (Direita)</h4>
+              <p><span class="kbd-badge">↑</span> para subir<br/><span class="kbd-badge">↓</span> para descer</p>
+            </div>
+            <div class="control-card">
+              <h4>Atalhos Rápidos</h4>
+              <p><span class="kbd-badge">Espaço</span> Pausar | <span class="kbd-badge">R</span> Reiniciar<br/><span class="kbd-badge">C</span> Canal | <span class="kbd-badge">M</span> Som | <span class="kbd-badge">O</span> Power TV</p>
+            </div>
+            <div class="control-card">
+              <h4>Touch / Celular</h4>
+              <p>Toque e arraste o dedo diretamente na tela da TV ou use os botões virtuais ▲ ▼ abaixo do televisor.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="modal-section-title">🎛️ Controles Interativos na Própria TV</div>
+          <p>
+            Você pode clicar diretamente nos botões físicos e seletores giratórios do painel prateado à direita da TV:
+          </p>
+          <ul style="padding-left: 20px; margin-top: 8px; font-size: 0.88rem; color: #a0aec0;">
+            <li><strong>Botão Vermelho (Topo):</strong> Liga e desliga a TV com animação real de colapso de feixe CRT.</li>
+            <li><strong>Seletor Giratório Superior (VHF):</strong> Gira o botão e troca os canais de cor da TV (Fósforo Verde, Âmbar, P&B e Neon 80s).</li>
+            <li><strong>Seletor Giratório Inferior (UHF):</strong> Alterna o nível de sintonia/dificuldade da inteligência artificial.</li>
+            <li><strong>Botões Centrais:</strong> Alternam modo de jogo, mudo de áudio e ativam/desativam as scanlines de fósforo.</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="modal-section-title">🏆 Regras do Jogo</div>
+          <p>
+            Cada ponto é marcado quando a bola ultrapassa a raquete adversária. A velocidade da bola aumenta progressivamente a cada troca de passes. O primeiro a alcançar <strong>10 pontos</strong> vence a partida!
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4U.IA.BR Standardized Footer -->
+  <footer class="footer-clean">
+    <span>© 2026 4U.IA.BR</span>
+  </footer>
+
+  <!-- Game Script -->
+  <script src="script.js"></script>
+</body>
+</html>
