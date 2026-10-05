@@ -304,6 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('keydown', (e) => {
     initAudio();
+
+    // Impede o scroll da página ao jogar com as setas do teclado
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();
+    }
+
     keys[e.key] = true;
 
     // Shortcuts
