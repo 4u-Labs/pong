@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         winnerText = player1.score >= WINNING_SCORE ? 'JOGADOR 1 VENCEU!' : 'JOGADOR 2 VENCEU!';
       }
-      showHud('FIM DE JOGO', winnerText);
+      showHud('FIM DE JOGO', winnerText, true);
     } else {
       serveBall(scorer === 1 ? -1 : 1);
     }
@@ -574,9 +574,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Controls & UI Handling ---
-  function showHud(title, subtitle) {
+  function showHud(title, subtitle, isOver = false) {
     hudTitle.textContent = title;
     hudSubtitle.textContent = subtitle;
+
+    const hudBadgeIcon = document.getElementById('hudBadgeIcon');
+    const hudScoreRow = document.getElementById('hudScoreRow');
+    const hudScore1 = document.getElementById('hudScore1');
+    const hudScore2 = document.getElementById('hudScore2');
+
+    if (isOver) {
+      if (hudBadgeIcon) hudBadgeIcon.textContent = '🏆';
+      if (hudScoreRow) {
+        hudScoreRow.style.display = 'flex';
+        if (hudScore1) hudScore1.textContent = player1.score;
+        if (hudScore2) hudScore2.textContent = player2.score;
+      }
+      if (hudRestartBtn) hudRestartBtn.textContent = 'JOGAR NOVAMENTE';
+      hudTitle.style.color = '#ffd000';
+    } else {
+      if (hudBadgeIcon) hudBadgeIcon.textContent = '⏸️';
+      if (hudScoreRow) hudScoreRow.style.display = 'none';
+      if (hudRestartBtn) hudRestartBtn.textContent = 'CONTINUAR';
+      hudTitle.style.color = '#00e5ff';
+    }
+
     hudOverlay.classList.remove('hidden');
   }
 
@@ -741,7 +763,14 @@ document.addEventListener('DOMContentLoaded', () => {
   btnResetGame.addEventListener('click', resetGame);
   btnToggleSound.addEventListener('click', toggleSound);
   btnToggleCrt.addEventListener('click', toggleCrt);
-  hudRestartBtn.addEventListener('click', resetGame);
+  hudRestartBtn.addEventListener('click', () => {
+    soundClick();
+    if (isPaused && !isGameOver) {
+      togglePause();
+    } else {
+      resetGame();
+    }
+  });
 
   modeCpuBtn.addEventListener('click', () => setMode('cpu'));
   modePvpBtn.addEventListener('click', () => setMode('pvp'));

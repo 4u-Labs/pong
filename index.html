@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet"/>
 
   <!-- Stylesheet with Cache Busting -->
-  <link rel="stylesheet" href="style.css?v=20261005_tv5"/>
+  <link rel="stylesheet" href="style.css?v=20261005_tv6"/>
 </head>
 <body>
 
@@ -56,10 +56,18 @@
 
           <!-- HUD Status Screen Overlay (Pause / Game Over) -->
           <div class="screen-hud-overlay hidden" id="screenHudOverlay">
-            <h2 class="hud-title" id="hudTitle">JOGO PAUSADO</h2>
-            <p class="hud-subtitle" id="hudSubtitle">Pressione Espaço para continuar</p>
-            <div class="hud-btn-group">
-              <button class="btn-hud" id="hudRestartBtn">JOGAR NOVAMENTE</button>
+            <div class="hud-card">
+              <div class="hud-badge-icon" id="hudBadgeIcon">🏆</div>
+              <h2 class="hud-title" id="hudTitle">FIM DE JOGO</h2>
+              <div class="hud-score-row" id="hudScoreRow" style="display: none;">
+                <span id="hudScore1">10</span>
+                <span class="hud-score-sep">:</span>
+                <span id="hudScore2">8</span>
+              </div>
+              <p class="hud-subtitle" id="hudSubtitle">CPU VENCEU!</p>
+              <div class="hud-btn-group">
+                <button class="btn-hud" id="hudRestartBtn">JOGAR NOVAMENTE</button>
+              </div>
             </div>
           </div>
         </div>
@@ -338,6 +346,6 @@
   </footer>
 
   <!-- Game Script with Cache Busting -->
-  <script src="script.js?v=20261005_tv5"></script>
+  <script src="script.js?v=20261005_tv6"></script>
 </body>
 </html>
