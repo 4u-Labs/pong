@@ -13,13 +13,13 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png"/>
   <link rel="apple-touch-icon" href="/favicon-192x192.png"/>
 
-  <!-- Google Fonts Orbitron -->
+  <!-- Google Fonts Orbitron & Retro 8-bit Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet"/>
 
   <!-- Stylesheet with Cache Busting -->
-  <link rel="stylesheet" href="style.css?v=20261001_tv2"/>
+  <link rel="stylesheet" href="style.css?v=20261005_tv4"/>
 </head>
 <body>
 
@@ -126,86 +126,146 @@
     <!-- Retro Control Dashboard (Under TV) -->
     <div class="arcade-dashboard">
       
-      <!-- Row 1: Game Mode & Quick Actions -->
-      <div class="dashboard-row">
-        <div>
-          <div class="group-title">🎮 Modo de Jogo</div>
-          <div class="btn-pill-group">
-            <button class="btn-pill active" id="modeCpuBtn">
-              <span>🤖</span> vs Computador
-            </button>
-            <button class="btn-pill" id="modePvpBtn">
-              <span>👥</span> 2 Jogadores
-            </button>
-            <button class="btn-pill" id="modeDemoBtn">
-              <span>📺</span> Modo Demo
-            </button>
-          </div>
+      <!-- Top Header Row: Gamepad + MODO DE JOGO + Magenta Dither & Hearts -->
+      <div class="dash-top-header">
+        <div class="dash-header-title">
+          <svg class="pixel-gamepad-icon" viewBox="0 0 20 14" width="24" height="16" fill="none">
+            <rect x="3" y="1" width="14" height="11" rx="2" fill="#e0e8f0"/>
+            <rect x="1" y="3" width="18" height="7" fill="#e0e8f0"/>
+            <rect x="4" y="5" width="4" height="3" fill="#111"/>
+            <rect x="5" y="4" width="2" height="5" fill="#111"/>
+            <rect x="9" y="6" width="2" height="1" fill="#666"/>
+            <circle cx="14" cy="7" r="1.2" fill="#ff0044"/>
+            <circle cx="16" cy="5.5" r="1.2" fill="#ff0044"/>
+          </svg>
+          <span class="dash-title-text">MODO DE JOGO</span>
         </div>
-
-        <div>
-          <div class="group-title">⚡ Ações Rápidas</div>
-          <div class="action-buttons-group">
-            <button class="btn-action" id="btnTogglePause">
-              <span>⏸️</span> Pausar
-            </button>
-            <button class="btn-action btn-accent" id="btnResetGame">
-              <span>🔄</span> Reiniciar
-            </button>
-            <button class="btn-action" id="btnTogglePower">
-              <span>📺</span> Desligar TV
-            </button>
-            <button class="btn-action btn-accent" id="btnToggleSound">
-              <span>🔊</span> Som: Ligado
-            </button>
-            <button class="btn-action btn-accent" id="btnToggleCrt">
-              <span>🎛️</span> CRT: Ligado
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 2: CRT Channel Themes & Difficulty -->
-      <div class="dashboard-row">
-        <div>
-          <div class="group-title">📺 Canal de Imagem (Tema CRT)</div>
-          <div class="btn-pill-group">
-            <button class="btn-pill active" data-theme="green">
-              <span>🟢</span> Verde CRT
-            </button>
-            <button class="btn-pill" data-theme="amber">
-              <span>🟠</span> Âmbar
-            </button>
-            <button class="btn-pill" data-theme="classic">
-              <span>⚪</span> 1972 Clássico
-            </button>
-            <button class="btn-pill" data-theme="neon">
-              <span>🟣</span> Neon 80s
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <div class="group-title">🎯 Nível de Dificuldade</div>
-          <div class="btn-pill-group">
-            <button class="btn-pill" data-diff="easy">Iniciante</button>
-            <button class="btn-pill active" data-diff="normal">Normal</button>
-            <button class="btn-pill" data-diff="pro">Pro Arcade</button>
-          </div>
+        <div class="dash-dither-hearts">
+          <svg class="pixel-heart" viewBox="0 0 10 9" width="16" height="14" fill="none">
+            <rect x="2" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="6" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="1" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="5" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="2" y="1" width="1" height="1" fill="#ffaacc"/>
+            <rect x="0" y="2" width="10" height="2" fill="#ff0044"/>
+            <rect x="1" y="4" width="8" height="2" fill="#ff0044"/>
+            <rect x="2" y="6" width="6" height="1" fill="#ff0044"/>
+            <rect x="3" y="7" width="4" height="1" fill="#ff0044"/>
+            <rect x="4" y="8" width="2" height="1" fill="#ff0044"/>
+          </svg>
+          <svg class="pixel-heart" viewBox="0 0 10 9" width="16" height="14" fill="none">
+            <rect x="2" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="6" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="1" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="5" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="2" y="1" width="1" height="1" fill="#ffaacc"/>
+            <rect x="0" y="2" width="10" height="2" fill="#ff0044"/>
+            <rect x="1" y="4" width="8" height="2" fill="#ff0044"/>
+            <rect x="2" y="6" width="6" height="1" fill="#ff0044"/>
+            <rect x="3" y="7" width="4" height="1" fill="#ff0044"/>
+            <rect x="4" y="8" width="2" height="1" fill="#ff0044"/>
+          </svg>
+          <svg class="pixel-heart" viewBox="0 0 10 9" width="16" height="14" fill="none">
+            <rect x="2" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="6" y="0" width="2" height="1" fill="#ff0044"/>
+            <rect x="1" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="5" y="1" width="4" height="2" fill="#ff0044"/>
+            <rect x="2" y="1" width="1" height="1" fill="#ffaacc"/>
+            <rect x="0" y="2" width="10" height="2" fill="#ff0044"/>
+            <rect x="1" y="4" width="8" height="2" fill="#ff0044"/>
+            <rect x="2" y="6" width="6" height="1" fill="#ff0044"/>
+            <rect x="3" y="7" width="4" height="1" fill="#ff0044"/>
+            <rect x="4" y="8" width="2" height="1" fill="#ff0044"/>
+          </svg>
         </div>
       </div>
 
-    </div>
+      <!-- Row 1: Game Mode Buttons -->
+      <div class="dash-modes-row">
+        <button class="btn-retro-mode active" id="modeCpuBtn">
+          <span class="mode-icon">🤖</span> VS COMPUTADOR
+        </button>
+        <button class="btn-retro-mode" id="modePvpBtn">
+          <span class="mode-icon">👥</span> 2 JOGADORES
+        </button>
+        <button class="btn-retro-mode" id="modeDemoBtn">
+          <span class="mode-icon">📺</span> MODO DEMO
+        </button>
+      </div>
 
-    <!-- Keyboard Shortcuts Bar -->
-    <div class="keyboard-hints">
-      <span><span class="kbd-badge">W</span> / <span class="kbd-badge">S</span> Jogador 1</span>
-      <span><span class="kbd-badge">↑</span> / <span class="kbd-badge">↓</span> Jogador 2 (ou Jogador 1 no modo CPU)</span>
-      <span><span class="kbd-badge">Espaço</span> / <span class="kbd-badge">P</span> Pausar</span>
-      <span><span class="kbd-badge">R</span> Reiniciar</span>
-      <span><span class="kbd-badge">C</span> Trocar Canal</span>
-      <span><span class="kbd-badge">M</span> Mudo</span>
-      <span><span class="kbd-badge">O</span> Power TV</span>
+      <!-- Row 2: Quick Actions Section -->
+      <div class="dash-quick-actions-section">
+        <div class="retro-group-title">
+          <span class="title-icon">⚡</span> AÇÕES RÁPIDAS
+        </div>
+        <div class="retro-actions-box">
+          <button class="btn-retro-action btn-action-orange" id="btnTogglePause">
+            <span class="action-icon">▶</span> Continuar
+          </button>
+          <button class="btn-retro-action btn-action-green" id="btnResetGame">
+            <span class="action-icon">⟲</span> Reiniciar
+          </button>
+          <button class="btn-retro-action btn-action-cyan" id="btnTogglePower">
+            <span class="action-icon">📺</span> Desligar TV
+          </button>
+          <button class="btn-retro-action btn-action-green" id="btnToggleSound">
+            <span class="action-icon">🔊</span> Som: Ligado
+          </button>
+          <button class="btn-retro-action btn-action-green" id="btnToggleCrt">
+            <span class="action-icon">🎲</span> CRT: Ligado
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 3: Image Channels & Difficulty Sub-panels -->
+      <div class="dash-two-columns">
+        
+        <!-- Left: Canal de Imagem (Tema CRT) -->
+        <div class="retro-subpanel dash-panel-channels">
+          <div class="retro-group-title">
+            <span class="title-icon">🖼️</span> CANAL DE IMAGEM (TEMA CRT)
+          </div>
+          <div class="retro-pills-row">
+            <button class="btn-retro-pill active" data-theme="green">
+              <span class="pill-dot dot-green"></span> Verde CRT
+            </button>
+            <button class="btn-retro-pill" data-theme="amber">
+              <span class="pill-dot dot-amber"></span> Âmbar
+            </button>
+            <button class="btn-retro-pill" data-theme="classic">
+              <span class="pill-dot dot-classic"></span> 1972 Clássico
+            </button>
+            <button class="btn-retro-pill" data-theme="neon">
+              <span class="pill-dot dot-neon"></span> Neon 80s
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Nível de Dificuldade -->
+        <div class="retro-subpanel dash-panel-diff">
+          <div class="retro-group-title">
+            <span class="title-icon">🎯</span> NÍVEL DE DIFICULDADE
+          </div>
+          <div class="retro-pills-row">
+            <button class="btn-retro-pill" data-diff="easy">Iniciante</button>
+            <button class="btn-retro-pill active" data-diff="normal">Normal</button>
+            <button class="btn-retro-pill" data-diff="pro">Pro Arcade</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 4: Retro Keyboard Shortcuts Bar -->
+      <div class="dash-keyboard-bar">
+        <div class="kbd-item"><span class="kbd-badge">W</span> <span class="kbd-badge">S</span> <span class="kbd-label">Jogador 1</span></div>
+        <div class="kbd-item"><span class="kbd-badge">↑</span> <span class="kbd-badge">↓</span> <span class="kbd-label">Jogador 2 (ou Jogador 1 no modo CPU)</span></div>
+        <div class="kbd-item"><span class="kbd-badge">Espaço</span> <span class="kbd-label">Pausar</span></div>
+        <div class="kbd-item"><span class="kbd-badge">P</span> <span class="kbd-label">Reiniciar</span></div>
+        <div class="kbd-item"><span class="kbd-badge">C</span> <span class="kbd-label">Trocar Canal</span></div>
+        <div class="kbd-item"><span class="kbd-badge">M</span> <span class="kbd-label">Mudo</span></div>
+        <div class="kbd-item"><span class="kbd-badge">O</span> <span class="kbd-label">Power TV</span></div>
+      </div>
+
     </div>
 
   </main>
@@ -278,6 +338,6 @@
   </footer>
 
   <!-- Game Script with Cache Busting -->
-  <script src="script.js?v=20261005_tv3"></script>
+  <script src="script.js?v=20261005_tv4"></script>
 </body>
 </html>

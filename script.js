@@ -313,10 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
     keys[e.key] = true;
 
     // Shortcuts
-    if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
+    if (e.key === ' ') {
       e.preventDefault();
       togglePause();
-    } else if (e.key === 'r' || e.key === 'R') {
+    } else if (e.key === 'p' || e.key === 'P' || e.key === 'r' || e.key === 'R') {
       resetGame();
     } else if (e.key === 'm' || e.key === 'M') {
       toggleSound();
@@ -650,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
     soundClick();
     crtScanlines.classList.toggle('off');
     const isOn = !crtScanlines.classList.contains('off');
-    btnToggleCrt.innerHTML = isOn ? '<span>🎛️</span> CRT: Ligado' : '<span>🎛️</span> CRT: Desligado';
+    btnToggleCrt.innerHTML = isOn ? '<span>🎲</span> CRT: Ligado' : '<span>🎲</span> CRT: Desligado';
     btnToggleCrt.classList.toggle('btn-accent', isOn);
   }
 
