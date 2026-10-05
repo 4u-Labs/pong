@@ -192,9 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Difficulty Settings ---
   const DIFFICULTIES = {
-    easy: { name: 'Fácil', ballBaseSpeed: 5.5, maxSpeed: 12, aiSpeed: 0.08, pHeight: 90 },
-    normal: { name: 'Normal', ballBaseSpeed: 7, maxSpeed: 15, aiSpeed: 0.13, pHeight: 80 },
-    pro: { name: 'Pro', ballBaseSpeed: 8.5, maxSpeed: 19, aiSpeed: 0.22, pHeight: 70 }
+    easy: { name: 'Fácil', ballBaseSpeed: 7.2, maxSpeed: 14, aiSpeed: 0.11, paddleSpeed: 9.5, pHeight: 90 },
+    normal: { name: 'Normal', ballBaseSpeed: 9.0, maxSpeed: 18, aiSpeed: 0.16, paddleSpeed: 11, pHeight: 80 },
+    pro: { name: 'Pro', ballBaseSpeed: 11.0, maxSpeed: 23, aiSpeed: 0.25, paddleSpeed: 13, pHeight: 70 }
   };
   const DIFF_KEYS = ['easy', 'normal', 'pro'];
   let currentDiffIdx = 1; // normal
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     width: PADDLE_WIDTH,
     height: currentDiff.pHeight,
     vy: 0,
-    speed: 9,
+    speed: currentDiff.paddleSpeed || 11,
     score: 0
   };
 
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     width: PADDLE_WIDTH,
     height: currentDiff.pHeight,
     vy: 0,
-    speed: 9,
+    speed: currentDiff.paddleSpeed || 11,
     score: 0
   };
 
@@ -699,6 +699,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     player1.height = currentDiff.pHeight;
     player2.height = currentDiff.pHeight;
+    player1.speed = currentDiff.paddleSpeed || 11;
+    player2.speed = currentDiff.paddleSpeed || 11;
 
     diffBtns.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.diff === diffKey);
